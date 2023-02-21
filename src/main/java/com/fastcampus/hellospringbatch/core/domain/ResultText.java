@@ -14,8 +14,8 @@ import javax.persistence.*;
 @DynamicUpdate
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "plain_text")
-public class PlainText {
+@Table(name = "result_text")
+public class ResultText {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
