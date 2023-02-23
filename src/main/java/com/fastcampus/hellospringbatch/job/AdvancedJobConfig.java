@@ -55,10 +55,29 @@ public class AdvancedJobConfig {
 
     @JobScope
     @Bean
-    public Step advancedStep (Tasklet advancedTasklet) {
+    public Step advancedStep (StepExecutionListener stepExecutionListener, Tasklet advancedTasklet) {
         return stepBuilderFactory.get("advancedStep")
+                .listener(stepExecutionListener)
                 .tasklet(advancedTasklet)
                 .build();
+    }
+
+    // 외에도 다양한 범주에서 활용할 수 있는 Listener 가 존재한다.
+    @StepScope
+    @Bean
+    public StepExecutionListener stepExecutionListener() {
+        return new StepExecutionListener() {
+            @Override
+            public void beforeStep(StepExecution stepExecution) {
+                log.info("[StepExecutionListener#beforeStep] stepExecutionListener is " + stepExecution.getStatus());
+            }
+
+            @Override
+            public ExitStatus afterStep(StepExecution stepExecution) {
+                log.info("[StepExecutionListener#afterStep] stepExecutionListener is " + stepExecution.getStatus());
+                return stepExecution.getExitStatus();
+            }
+        };
     }
 
     @StepScope
