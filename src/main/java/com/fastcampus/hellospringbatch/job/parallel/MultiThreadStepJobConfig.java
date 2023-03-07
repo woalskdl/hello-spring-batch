@@ -64,7 +64,10 @@ public class MultiThreadStepJobConfig {
     // multiThread 설정 >> 순서가 고려되지 않음
     @Bean
     public TaskExecutor taskExecutor() {
-        return new SimpleAsyncTaskExecutor("spring-batch-task-executor");
+        SimpleAsyncTaskExecutor taskExecutor = new SimpleAsyncTaskExecutor("spring-batch-task-executor");
+        // 동시에 실행하는 스레드를 4개로 제한
+        taskExecutor.setConcurrencyLimit(4);
+        return taskExecutor;
     }
 
     @StepScope
